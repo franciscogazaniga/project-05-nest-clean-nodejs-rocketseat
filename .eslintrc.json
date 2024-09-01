@@ -1,0 +1,6 @@
+{
+  "extends": "@rocketseat/eslint-config/node",
+  "rules": {
+    "no-useless-constructor": "off" // To avoid throwing an error when the constructor is empty
+  }
+}
