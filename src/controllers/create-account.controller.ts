@@ -6,6 +6,7 @@ import {
   Post,
 } from '@nestjs/common'
 import { PrismaService } from 'src/prisma/prisma.service'
+import { hash } from 'bcryptjs'
 
 @Controller('/accounts')
 export class CreateAccountController {
@@ -26,11 +27,13 @@ export class CreateAccountController {
       throw new ConflictException('User with same address already exists.')
     }
 
+    const hashedPassword = await hash(password, 8) // As greater is the salt number, more iterations are made to generate the hashed password, which made that the password become more secure, however greater is the cpu use for generate the hashed password aswell
+
     await this.prisma.user.create({
       data: {
         name,
         email,
-        password,
+        password: hashedPassword,
       },
     })
   }
